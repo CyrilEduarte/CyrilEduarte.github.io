@@ -221,8 +221,19 @@
 
 function copyTableAsImage(containerId, hideActions = false) {
     if (hideActions) toggleActionColumn(containerId, false);
+    
     const tableContainer = document.getElementById(containerId);
-    html2canvas(tableContainer).then(canvas => {
+
+    // Ensure the full size of the table is captured
+    html2canvas(tableContainer, {
+        scrollX: 0,  // Ensure the entire table content is captured (avoid clipping)
+        scrollY: 0,  // Ensure the entire table content is captured
+        width: tableContainer.scrollWidth,  // Use scrollWidth to ensure the full table width
+        height: tableContainer.scrollHeight, // Use scrollHeight to ensure the full table height
+        x: window.pageXOffset, // Prevent clipping if there's any horizontal scroll
+        y: window.pageYOffset, // Prevent clipping if there's any vertical scroll
+        useCORS: true, // Enable cross-origin resource sharing if any images are present
+    }).then(canvas => {
         canvas.toBlob(blob => {
             navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
             alert(`Table from ${containerId} copied as an image!`);
@@ -234,8 +245,19 @@ function copyTableAsImage(containerId, hideActions = false) {
 
 function downloadTableAsImage(containerId, hideActions = false) {
     if (hideActions) toggleActionColumn(containerId, false);
+    
     const tableContainer = document.getElementById(containerId);
-    html2canvas(tableContainer).then(canvas => {
+
+    // Ensure the full size of the table is captured
+    html2canvas(tableContainer, {
+        scrollX: 0,  // Ensure the entire table content is captured (avoid clipping)
+        scrollY: 0,  // Ensure the entire table content is captured
+        width: tableContainer.scrollWidth,  // Use scrollWidth to ensure the full table width
+        height: tableContainer.scrollHeight, // Use scrollHeight to ensure the full table height
+        x: window.pageXOffset, // Prevent clipping if there's any horizontal scroll
+        y: window.pageYOffset, // Prevent clipping if there's any vertical scroll
+        useCORS: true, // Enable cross-origin resource sharing if any images are present
+    }).then(canvas => {
         const link = document.createElement("a");
         link.download = `${containerId}.png`;
         link.href = canvas.toDataURL("image/png");
