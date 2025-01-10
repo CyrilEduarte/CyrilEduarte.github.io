@@ -219,15 +219,6 @@
     });
 }
 
-function toggleActionColumn(containerId, show) {
-    const table = document.querySelector(`#${containerId} table`);
-    const actionColumns = table.querySelectorAll("td.action-column, th.action-column");
-
-    actionColumns.forEach(col => {
-        col.style.display = show ? "" : "none";
-    });
-}
-
 function copyTableAsImage(containerId, hideActions = false) {
     if (hideActions) toggleActionColumn(containerId, false);
     const tableContainer = document.getElementById(containerId);
