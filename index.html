@@ -47,8 +47,8 @@
             <label><input type="checkbox" id="hidePriceColumn" onchange="toggleColumnVisibility('priceColumn', this.checked)"> Hide Price per Flyer Column</label><br>
             <label><input type="checkbox" id="hideQuantityColumn" onchange="toggleColumnVisibility('quantityColumn', this.checked)"> Hide Quantity Column</label><br>
             <label><input type="checkbox" id="hideTotalColumn" onchange="toggleColumnVisibility('totalColumn', this.checked)"> Hide Total Column</label><br>
-        </div> -->
-
+        </div>
+ -->
         <!-- First Table -->
         <div class="buttons">
             <button class="btn btn-primary" onclick="copyTableAsImage('tableContainer1')">Copy Table 1</button>
@@ -256,6 +256,11 @@ function downloadTableAsImage(containerId, hideActions = false) {
         if (hideActions) toggleActionColumn(containerId, true);
     });
 }
+
+
+
+
+
         // Initialize prices on page load
         updatePrices();
         updateCustomPrices();
