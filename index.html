@@ -219,61 +219,41 @@
     });
 }
 
+function toggleActionColumn(containerId, show) {
+    const table = document.querySelector(`#${containerId} table`);
+    const actionColumns = table.querySelectorAll("td.action-column, th.action-column");
+
+    actionColumns.forEach(col => {
+        col.style.display = show ? "" : "none";
+    });
+}
+
 function copyTableAsImage(containerId, hideActions = false) {
     if (hideActions) toggleActionColumn(containerId, false);
-
     const tableContainer = document.getElementById(containerId);
-    const tableRect = tableContainer.getBoundingClientRect(); // Get the bounding rectangle for accurate width/height
-
-    // Ensure the full size of the table is captured
-    setTimeout(() => {
-        html2canvas(tableContainer, {
-            scrollX: 0,
-            scrollY: 0,
-            width: tableRect.width,  // Use table's actual width
-            height: tableRect.height, // Use table's actual height
-            x: window.pageXOffset,
-            y: window.pageYOffset,
-            useCORS: true,
-            allowTaint: true,  // Allow tainting for cross-origin content
-        }).then(canvas => {
-            canvas.toBlob(blob => {
-                navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-                alert(`Table from ${containerId} copied as an image!`);
-            }).finally(() => {
-                if (hideActions) toggleActionColumn(containerId, true);
-            });
+    html2canvas(tableContainer).then(canvas => {
+        canvas.toBlob(blob => {
+            navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+            alert(`Table from ${containerId} copied as an image!`);
+        }).finally(() => {
+            if (hideActions) toggleActionColumn(containerId, true);
         });
-    }, 500);  // Add a small delay before rendering
+    });
 }
 
 function downloadTableAsImage(containerId, hideActions = false) {
     if (hideActions) toggleActionColumn(containerId, false);
-
     const tableContainer = document.getElementById(containerId);
-    const tableRect = tableContainer.getBoundingClientRect(); // Get the bounding rectangle for accurate width/height
-
-    // Ensure the full size of the table is captured
-    setTimeout(() => {
-        html2canvas(tableContainer, {
-            scrollX: 0,
-            scrollY: 0,
-            width: tableRect.width,  // Use table's actual width
-            height: tableRect.height, // Use table's actual height
-            x: window.pageXOffset,
-            y: window.pageYOffset,
-            useCORS: true,
-            allowTaint: true,  // Allow tainting for cross-origin content
-        }).then(canvas => {
-            const link = document.createElement("a");
-            link.download = `${containerId}.png`;
-            link.href = canvas.toDataURL("image/png");
-            link.click();
-        }).finally(() => {
-            if (hideActions) toggleActionColumn(containerId, true);
-        });
-    }, 500);  // Add a small delay before rendering
+    html2canvas(tableContainer).then(canvas => {
+        const link = document.createElement("a");
+        link.download = `${containerId}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+    }).finally(() => {
+        if (hideActions) toggleActionColumn(containerId, true);
+    });
 }
+
 
 
 
