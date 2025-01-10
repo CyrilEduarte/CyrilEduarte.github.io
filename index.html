@@ -210,7 +210,7 @@
             });
         }
 
-        function toggleActionColumn(containerId, show) {
+function toggleActionColumn(containerId, show) {
     const table = document.querySelector(`#${containerId} table`);
     const actionColumns = table.querySelectorAll("td.action-column, th.action-column");
 
@@ -220,30 +220,43 @@
 }
 
 function copyTableAsImage(containerId, hideActions = false) {
-    if (hideActions) toggleActionColumn(containerId, false);
     const tableContainer = document.getElementById(containerId);
+
+    // Hide action column if specified
+    if (hideActions) toggleActionColumn(containerId, false);
+
     html2canvas(tableContainer).then(canvas => {
         canvas.toBlob(blob => {
             navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
             alert(`Table from ${containerId} copied as an image!`);
-        }).finally(() => {
-            if (hideActions) toggleActionColumn(containerId, true);
         });
+    }).catch((error) => {
+        console.error("Error copying table as image:", error);
+    }).finally(() => {
+        // Ensure action column is visible again after copying
+        if (hideActions) toggleActionColumn(containerId, true);
     });
 }
 
 function downloadTableAsImage(containerId, hideActions = false) {
-    if (hideActions) toggleActionColumn(containerId, false);
     const tableContainer = document.getElementById(containerId);
+
+    // Hide action column if specified
+    if (hideActions) toggleActionColumn(containerId, false);
+
     html2canvas(tableContainer).then(canvas => {
         const link = document.createElement("a");
         link.download = `${containerId}.png`;
         link.href = canvas.toDataURL("image/png");
         link.click();
+    }).catch((error) => {
+        console.error("Error downloading table as image:", error);
     }).finally(() => {
+        // Ensure action column is visible again after downloading
         if (hideActions) toggleActionColumn(containerId, true);
     });
 }
+
 
 
 
